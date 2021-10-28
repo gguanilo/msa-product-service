@@ -72,6 +72,46 @@ Generate Report for the coverage.
 $ ./gradlew jacocoTestReport 
 ```
 
+## Sample Data for Testing
+Item 1
+```bash
+curl --location --request POST 'http://localhost:8080/products' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "sku":"FAL-8406270",
+    "name":"500 Zapatilla Urbana Mujer",
+    "brandName":"NEW BALANCE",
+    "size":"37",
+    "price":42990.00 ,
+    "urlImage":"https://falabella.scene7.com/is/image/Falabella/8406270_1"
+}'
+```
+Item 2
+```bash
+curl --location --request POST 'http://localhost:8080/products' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "sku":"FAL-881952283",
+    "name":"Bicicleta Baltoro Aro 29",
+    "brandName":"JEEP",
+    "size":"ST",
+    "price":399990.00 ,
+    "urlImage":"https://falabella.scene7.com/is/image/Falabella/881952283_1"
+}'
+```
+Item 3
+```bash
+curl --location --request POST 'http://localhost:8080/products' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "sku":"FAL-881898502",
+    "name":"Camisa Manga Corta Hombre",
+    "brandName":"BASEMENT",
+    "size":"M",
+    "price":24990.00 ,
+    "urlImage":"https://falabella.scene7.com/is/image/Falabella/881898502_1"
+}'
+```
 
 ## API
 TODO: API Reference with examples, or a link to a wiki or other documentation source.
