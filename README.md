@@ -17,9 +17,6 @@
 - [API](#requirements)
 - [Acknowledgements](#acknowledgements)
 
-
-
-
 ## Introduction
 
 TODO: Replace with introduction
@@ -29,19 +26,18 @@ TODO: Description of features
 
 * Crud of entity products
 * Coverage covered > 85%
-* web server features
+* Reactive responses using Webflux
 
 
 ## Requirements
 The application can be run locally , the requirements for each setup are listed below.
 
-
-
 ### Local
 * [Java 11 SDK](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
 * [Gradle](https://gradle.org/releases/)
 * [Spring Boot](https://spring.io/projects/spring-boot)
-* [H2 Database](https://spring.io/projects/spring-boot)
+* [Spring Webflux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html)
+* [H2 Database](https://www.h2database.com/html/download.html)
 
 
 
