@@ -62,4 +62,12 @@ public class ProductRestController {
         return Mono.just(service.getProduct(sku));
     }
 
+
+    @DeleteMapping(value = "/{sku}", produces = MediaType.APPLICATION_NDJSON_VALUE)
+    @Operation(summary = "Delete Product",
+            description = "Delete Product by SKU")
+    public void deleteProduct(@PathVariable("sku") String sku) {
+        service.deleteProduct(sku);
+    }
+
 }

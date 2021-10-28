@@ -72,14 +72,26 @@ jacocoTestReport {
                                         'com/fallabella/challenge/product/bean/**',
                                         'com/fallabella/challenge/product/util/**',
                                         'com/fallabella/challenge/product/mapper/**',
+                                        'com/fallabella/challenge/product/MsaProductServiceApplication.class'
             ])
         }))
     }
 }
 
 jacocoTestCoverageVerification {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['com/fallabella/challenge/product/model/**',
+                                        'com/fallabella/challenge/product/bean/**',
+                                        'com/fallabella/challenge/product/util/**',
+                                        'com/fallabella/challenge/product/mapper/**',
+                                        'com/fallabella/challenge/product/MsaProductServiceApplication.class'
+            ])
+        }))
+    }
     violationRules {
         rule {
+            element = 'CLASS'
             limit {
                 minimum = 0.85
             }
@@ -88,12 +100,12 @@ jacocoTestCoverageVerification {
         rule {
             enabled = false
             element = 'CLASS'
-            includes = ['org.gradle.*']
 
             limit {
                 counter = 'LINE'
                 value = 'TOTALCOUNT'
                 maximum = 0.3
+
             }
         }
     }

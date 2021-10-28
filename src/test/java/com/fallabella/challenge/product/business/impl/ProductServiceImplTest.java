@@ -4,10 +4,13 @@ import com.fallabella.challenge.product.bean.Product;
 import com.fallabella.challenge.product.mapper.ProductMapper;
 import com.fallabella.challenge.product.model.ProductModel;
 import com.fallabella.challenge.product.repository.ProductRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +99,62 @@ public class ProductServiceImplTest {
     }
 
     @Test
+    public void testCreateProductFailedDuplicate() throws Exception {
+        Product product = Product.builder()
+                .sku("FAL-8406270")
+                .name("500 Zapatilla Urbana Mujer")
+                .brandName("NEW BALANCE")
+                .size("37")
+                .price(42990.00d)
+                .urlImage("https://falabella.scene7.com/is/image/Falabella/8406270_1")
+                .build();
+        ProductModel productModel = ProductModel.builder()
+                .sku("FAL-8406270")
+                .name("500 Zapatilla Urbana Mujer")
+                .brandName("NEW BALANCE")
+                .size("37")
+                .price(42990.00d)
+                .urlImage("https://falabella.scene7.com/is/image/Falabella/8406270_1")
+                .build();
+        when(repository.existsById(anyString())).thenReturn(true);
+        when(productMapper.beanToModel(any(Product.class))).thenReturn(productModel);
+        when(repository.save(any(ProductModel.class))).thenReturn(productModel);
+        when(productMapper.modelToBean(any(ProductModel.class))).thenReturn(product);
+        Assertions.assertThrows(ResponseStatusException.class, () -> {
+            productServiceImpl.createProduct(product);
+        });
+    }
+
+    @Test
+    public void testCreateProductFailedDataIntegrity() throws Exception {
+        Product product = Product.builder()
+                .sku("FAL-8406270")
+                .name("500 Zapatilla Urbana Mujer")
+                .brandName("NEW BALANCE")
+                .size("37")
+                .price(42990.00d)
+                .urlImage("https://falabella.scene7.com/is/image/Falabella/8406270_1")
+                .build();
+        ProductModel productModel = ProductModel.builder()
+                .sku("FAL-8406270")
+                .name("500 Zapatilla Urbana Mujer")
+                .brandName("NEW BALANCE")
+                .size("37")
+                .price(42990.00d)
+                .urlImage("https://falabella.scene7.com/is/image/Falabella/8406270_1")
+                .build();
+        when(repository.existsById(anyString())).thenReturn(false);
+        when(productMapper.beanToModel(any(Product.class))).thenReturn(productModel);
+        when(repository.save(any(ProductModel.class))).thenThrow(new DataIntegrityViolationException("Exception"));
+        when(productMapper.modelToBean(any(ProductModel.class))).thenReturn(product);
+        Assertions.assertThrows(ResponseStatusException.class, () -> {
+            productServiceImpl.createProduct(product);
+        });
+    }
+
+
+
+    @Test
     public void testUpdateProduct() throws Exception {
         Product product = Product.builder()
                 .sku("FAL-8406270")
@@ -119,6 +178,61 @@ public class ProductServiceImplTest {
         when(productMapper.modelToBean(any(ProductModel.class))).thenReturn(product);
         assertEquals(product, productServiceImpl.updateProduct(product));
     }
+
+    @Test
+    public void testUpdateProductFailedNotExists() throws Exception {
+        Product product = Product.builder()
+                .sku("FAL-8406270")
+                .name("500 Zapatilla Urbana Mujer")
+                .brandName("NEW BALANCE")
+                .size("37")
+                .price(42990.00d)
+                .urlImage("https://falabella.scene7.com/is/image/Falabella/8406270_1")
+                .build();
+        ProductModel productModel = ProductModel.builder()
+                .sku("FAL-8406270")
+                .name("500 Zapatilla Urbana Mujer")
+                .brandName("NEW BALANCE")
+                .size("37")
+                .price(42990.00d)
+                .urlImage("https://falabella.scene7.com/is/image/Falabella/8406270_1")
+                .build();
+        when(repository.existsById(anyString())).thenReturn(false);
+        when(productMapper.beanToModel(any(Product.class))).thenReturn(productModel);
+        when(repository.save(any(ProductModel.class))).thenReturn(productModel);
+        when(productMapper.modelToBean(any(ProductModel.class))).thenReturn(product);
+        Assertions.assertThrows(ResponseStatusException.class, () -> {
+            productServiceImpl.updateProduct(product);
+        });
+    }
+
+    @Test
+    public void testUpdateProductFailedDataIntegrity() throws Exception {
+        Product product = Product.builder()
+                .sku("FAL-8406270")
+                .name("500 Zapatilla Urbana Mujer")
+                .brandName("NEW BALANCE")
+                .size("37")
+                .price(42990.00d)
+                .urlImage("https://falabella.scene7.com/is/image/Falabella/8406270_1")
+                .build();
+        ProductModel productModel = ProductModel.builder()
+                .sku("FAL-8406270")
+                .name("500 Zapatilla Urbana Mujer")
+                .brandName("NEW BALANCE")
+                .size("37")
+                .price(42990.00d)
+                .urlImage("https://falabella.scene7.com/is/image/Falabella/8406270_1")
+                .build();
+        when(repository.existsById(anyString())).thenReturn(true);
+        when(productMapper.beanToModel(any(Product.class))).thenReturn(productModel);
+        when(repository.save(any(ProductModel.class))).thenThrow(new DataIntegrityViolationException("Exception"));
+        when(productMapper.modelToBean(any(ProductModel.class))).thenReturn(product);
+        Assertions.assertThrows(ResponseStatusException.class, () -> {
+            productServiceImpl.updateProduct(product);
+        });
+    }
+
 
     @Test
     public void testDeleteProduct() throws Exception {
